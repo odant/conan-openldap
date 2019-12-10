@@ -124,7 +124,7 @@ diff -Nru -x '*~' a/src/cmake/modules/PrepareConfigureFile.cmake b/src/cmake/mod
 diff -Nru -x '*~' a/src/CMakeLists.txt b/src/CMakeLists.txt
 --- a/src/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
 +++ b/src/CMakeLists.txt	2017-06-28 08:15:31.916517694 +0200
-@@ -0,0 +1,66 @@
+@@ -0,0 +1,69 @@
 +# openldap cmake based build system
 +# copyright (c) 2012 Patrick Spendrin <pspendrin@kde.org>
 +
