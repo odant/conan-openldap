@@ -1,12 +1,12 @@
-diff -Nru -x '*~' openldap-2.4.45-old/clients/CMakeLists.txt openldap-2.4.45/clients/CMakeLists.txt
---- openldap-2.4.45-old/clients/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
-+++ openldap-2.4.45/clients/CMakeLists.txt	2017-06-28 08:15:31.916517694 +0200
+diff -Nru -x '*~' a/src/clients/CMakeLists.txt b/src/clients/CMakeLists.txt
+--- a/src/clients/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
++++ b/src/clients/CMakeLists.txt	2017-06-28 08:15:31.916517694 +0200
 @@ -0,0 +1,2 @@
 +include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include)
 +add_subdirectory(tools)
-diff -Nru -x '*~' openldap-2.4.45-old/clients/tools/CMakeLists.txt openldap-2.4.45/clients/tools/CMakeLists.txt
---- openldap-2.4.45-old/clients/tools/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
-+++ openldap-2.4.45/clients/tools/CMakeLists.txt	2017-06-28 08:15:31.916517694 +0200
+diff -Nru -x '*~' a/src/clients/tools/CMakeLists.txt b/src/clients/tools/CMakeLists.txt
+--- a/src/clients/tools/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
++++ b/src/clients/tools/CMakeLists.txt	2017-06-28 08:15:31.916517694 +0200
 @@ -0,0 +1,32 @@
 +set(ldap_tools
 +    ldapsearch
@@ -40,9 +40,9 @@ diff -Nru -x '*~' openldap-2.4.45-old/clients/tools/CMakeLists.txt openldap-2.4.
 +endforeach(_tool ${ldap_tools})
 +
 +install(TARGETS ${ldap_tools} ${INSTALL_TARGETS_DEFAULT_ARGS})
-diff -Nru -x '*~' openldap-2.4.45-old/clients/tools/ldapsearch.c openldap-2.4.45/clients/tools/ldapsearch.c
---- openldap-2.4.45-old/clients/tools/ldapsearch.c	2017-06-28 08:15:17.448440471 +0200
-+++ openldap-2.4.45/clients/tools/ldapsearch.c	2017-06-28 08:15:31.916517694 +0200
+diff -Nru -x '*~' a/src/clients/tools/ldapsearch.c b/src/clients/tools/ldapsearch.c
+--- a/src/clients/tools/ldapsearch.c	2017-06-28 08:15:17.448440471 +0200
++++ b/src/clients/tools/ldapsearch.c	2017-06-28 08:15:31.916517694 +0200
 @@ -70,6 +70,7 @@
  #include "ldap_pvt.h"
  
@@ -51,9 +51,9 @@ diff -Nru -x '*~' openldap-2.4.45-old/clients/tools/ldapsearch.c openldap-2.4.45
  
  #if !LDAP_DEPRECATED
  /*
-diff -Nru -x '*~' openldap-2.4.45-old/cmake/modules/FindPCRE.cmake openldap-2.4.45/cmake/modules/FindPCRE.cmake
---- openldap-2.4.45-old/cmake/modules/FindPCRE.cmake	1970-01-01 01:00:00.000000000 +0100
-+++ openldap-2.4.45/cmake/modules/FindPCRE.cmake	2017-06-28 08:15:31.916517694 +0200
+diff -Nru -x '*~' a/src/cmake/modules/FindPCRE.cmake b/src/cmake/modules/FindPCRE.cmake
+--- a/src/cmake/modules/FindPCRE.cmake	1970-01-01 01:00:00.000000000 +0100
++++ b/src/cmake/modules/FindPCRE.cmake	2017-06-28 08:15:31.916517694 +0200
 @@ -0,0 +1,44 @@
 +# - Try to find the PCRE regular expression library
 +# Once done this will define
@@ -99,9 +99,9 @@ diff -Nru -x '*~' openldap-2.4.45-old/cmake/modules/FindPCRE.cmake openldap-2.4.
 +set(PCRE_LIBRARIES ${PCRE_PCRE_LIBRARY} ${PCRE_PCREPOSIX_LIBRARY})
 +
 +mark_as_advanced(PCRE_INCLUDE_DIR PCRE_LIBRARIES PCRE_PCREPOSIX_LIBRARY PCRE_PCRE_LIBRARY)
-diff -Nru -x '*~' openldap-2.4.45-old/cmake/modules/FindSasl2.cmake openldap-2.4.45/cmake/modules/FindSasl2.cmake
---- openldap-2.4.45-old/cmake/modules/FindSasl2.cmake	1970-01-01 01:00:00.000000000 +0100
-+++ openldap-2.4.45/cmake/modules/FindSasl2.cmake	2017-06-28 08:15:31.916517694 +0200
+diff -Nru -x '*~' a/src/cmake/modules/FindSasl2.cmake b/src/cmake/modules/FindSasl2.cmake
+--- a/src/cmake/modules/FindSasl2.cmake	1970-01-01 01:00:00.000000000 +0100
++++ b/src/cmake/modules/FindSasl2.cmake	2017-06-28 08:15:31.916517694 +0200
 @@ -0,0 +1,26 @@
 +# - Try to find the sasl2 directory library
 +# Once done this will define
@@ -129,9 +129,9 @@ diff -Nru -x '*~' openldap-2.4.45-old/cmake/modules/FindSasl2.cmake openldap-2.4
 +
 +mark_as_advanced(SASL2_INCLUDE_DIR SASL2_LIBRARIES)
 +
-diff -Nru -x '*~' openldap-2.4.45-old/cmake/modules/MacroBoolTo01.cmake openldap-2.4.45/cmake/modules/MacroBoolTo01.cmake
---- openldap-2.4.45-old/cmake/modules/MacroBoolTo01.cmake	1970-01-01 01:00:00.000000000 +0100
-+++ openldap-2.4.45/cmake/modules/MacroBoolTo01.cmake	2017-06-28 08:15:31.916517694 +0200
+diff -Nru -x '*~' a/src/cmake/modules/MacroBoolTo01.cmake b/src/cmake/modules/MacroBoolTo01.cmake
+--- a/src/cmake/modules/MacroBoolTo01.cmake	1970-01-01 01:00:00.000000000 +0100
++++ b/src/cmake/modules/MacroBoolTo01.cmake	2017-06-28 08:15:31.916517694 +0200
 @@ -0,0 +1,20 @@
 +# MACRO_BOOL_TO_01( VAR RESULT0 ... RESULTN )
 +# This macro evaluates its first argument
@@ -153,9 +153,9 @@ diff -Nru -x '*~' openldap-2.4.45-old/cmake/modules/MacroBoolTo01.cmake openldap
 +      ENDIF(${FOUND_VAR})
 +   ENDFOREACH(_current_VAR)
 +ENDMACRO(MACRO_BOOL_TO_01)
-diff -Nru -x '*~' openldap-2.4.45-old/cmake/modules/PrepareConfigureFile.cmake openldap-2.4.45/cmake/modules/PrepareConfigureFile.cmake
---- openldap-2.4.45-old/cmake/modules/PrepareConfigureFile.cmake	1970-01-01 01:00:00.000000000 +0100
-+++ openldap-2.4.45/cmake/modules/PrepareConfigureFile.cmake	2017-06-28 08:15:31.916517694 +0200
+diff -Nru -x '*~' a/src/cmake/modules/PrepareConfigureFile.cmake b/src/cmake/modules/PrepareConfigureFile.cmake
+--- a/src/cmake/modules/PrepareConfigureFile.cmake	1970-01-01 01:00:00.000000000 +0100
++++ b/src/cmake/modules/PrepareConfigureFile.cmake	2017-06-28 08:15:31.916517694 +0200
 @@ -0,0 +1,12 @@
 +# this macro is used to bring the template header syntax of ldap to the cmake syntax
 +macro(prepare_configure_file _infile)
@@ -169,9 +169,9 @@ diff -Nru -x '*~' openldap-2.4.45-old/cmake/modules/PrepareConfigureFile.cmake o
 +    string(REGEX REPLACE "%([A-Za-z0-9_]*)%" "@\\1@" __content "${__content}")
 +    file(WRITE ${CMAKE_BINARY_DIR}/${__outfile}.cmake ${__content})
 +endmacro(prepare_configure_file _infile)
-diff -Nru -x '*~' openldap-2.4.45-old/CMakeLists.txt openldap-2.4.45/CMakeLists.txt
---- openldap-2.4.45-old/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
-+++ openldap-2.4.45/CMakeLists.txt	2017-06-28 08:15:31.916517694 +0200
+diff -Nru -x '*~' a/src/CMakeLists.txt b/src/CMakeLists.txt
+--- a/src/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
++++ b/src/CMakeLists.txt	2017-06-28 08:15:31.916517694 +0200
 @@ -0,0 +1,66 @@
 +# openldap cmake based build system
 +# copyright (c) 2012 Patrick Spendrin <pspendrin@kde.org>
@@ -239,9 +239,9 @@ diff -Nru -x '*~' openldap-2.4.45-old/CMakeLists.txt openldap-2.4.45/CMakeLists.
 +if(BUILD_TOOLS)
 +    add_subdirectory(clients)
 +endif(BUILD_TOOLS)
-diff -Nru -x '*~' openldap-2.4.45-old/ConfigureChecks.cmake openldap-2.4.45/ConfigureChecks.cmake
---- openldap-2.4.45-old/ConfigureChecks.cmake	1970-01-01 01:00:00.000000000 +0100
-+++ openldap-2.4.45/ConfigureChecks.cmake	2017-06-28 09:00:25.855236942 +0200
+diff -Nru -x '*~' a/src/ConfigureChecks.cmake b/src/ConfigureChecks.cmake
+--- a/src/ConfigureChecks.cmake	1970-01-01 01:00:00.000000000 +0100
++++ b/src/ConfigureChecks.cmake	2017-06-28 09:00:25.855236942 +0200
 @@ -0,0 +1,483 @@
 +if(BUILD_REENTRANT)
 +set(REENTRANT 1)
@@ -726,9 +726,9 @@ diff -Nru -x '*~' openldap-2.4.45-old/ConfigureChecks.cmake openldap-2.4.45/Conf
 +#/* define to snprintf routine */
 +#undef vsnprintf
 +
-diff -Nru -x '*~' openldap-2.4.45-old/ConfigureOptions.cmake openldap-2.4.45/ConfigureOptions.cmake
---- openldap-2.4.45-old/ConfigureOptions.cmake	1970-01-01 01:00:00.000000000 +0100
-+++ openldap-2.4.45/ConfigureOptions.cmake	2017-06-28 08:15:31.936517801 +0200
+diff -Nru -x '*~' a/src/ConfigureOptions.cmake b/src/ConfigureOptions.cmake
+--- a/src/ConfigureOptions.cmake	1970-01-01 01:00:00.000000000 +0100
++++ b/src/ConfigureOptions.cmake	2017-06-28 08:15:31.936517801 +0200
 @@ -0,0 +1,45 @@
 +option(SLAPD_ACI_ENABLED "per-object ACIs" OFF)
 +option(SLAPD_BDB "BDB backend" OFF)
@@ -775,9 +775,9 @@ diff -Nru -x '*~' openldap-2.4.45-old/ConfigureOptions.cmake openldap-2.4.45/Con
 +option(SLAPD_SPASSWD "SASL passwords" OFF)
 +option(SLAPD_SQL "SQL backend" OFF)
 +option(SLAP_DYNACL "run-time loadable ACL" OFF)
-diff -Nru -x '*~' openldap-2.4.45-old/include/ac/regex.h openldap-2.4.45/include/ac/regex.h
---- openldap-2.4.45-old/include/ac/regex.h	2017-06-28 08:15:17.448440471 +0200
-+++ openldap-2.4.45/include/ac/regex.h	2017-06-28 08:15:31.936517801 +0200
+diff -Nru -x '*~' a/src/include/ac/regex.h b/src/include/ac/regex.h
+--- a/src/include/ac/regex.h	2017-06-28 08:15:17.448440471 +0200
++++ b/src/include/ac/regex.h	2017-06-28 08:15:31.936517801 +0200
 @@ -28,6 +28,9 @@
   */
  #error "No POSIX REGEX available."
@@ -788,9 +788,9 @@ diff -Nru -x '*~' openldap-2.4.45-old/include/ac/regex.h openldap-2.4.45/include
  #elif HAVE_GNUREGEX_H
  	/* system has GNU gnuregex.h */
  #	include <gnuregex.h>
-diff -Nru -x '*~' openldap-2.4.45-old/include/ac/socket.h openldap-2.4.45/include/ac/socket.h
---- openldap-2.4.45-old/include/ac/socket.h	2017-06-28 08:15:17.448440471 +0200
-+++ openldap-2.4.45/include/ac/socket.h	2017-06-28 08:15:31.936517801 +0200
+diff -Nru -x '*~' a/src/include/ac/socket.h b/src/include/ac/socket.h
+--- a/src/include/ac/socket.h	2017-06-28 08:15:17.448440471 +0200
++++ b/src/include/ac/socket.h	2017-06-28 08:15:31.936517801 +0200
 @@ -98,9 +98,11 @@
  #		define tcp_close( s )		closesocket( s )
  #	endif
@@ -803,9 +803,9 @@ diff -Nru -x '*~' openldap-2.4.45-old/include/ac/socket.h openldap-2.4.45/includ
  
  #undef	sock_errno
  #undef	sock_errstr
-diff -Nru -x '*~' openldap-2.4.45-old/include/ac/time.h openldap-2.4.45/include/ac/time.h
---- openldap-2.4.45-old/include/ac/time.h	2017-06-28 08:15:17.448440471 +0200
-+++ openldap-2.4.45/include/ac/time.h	2017-06-28 08:15:31.936517801 +0200
+diff -Nru -x '*~' a/src/include/ac/time.h b/src/include/ac/time.h
+--- a/src/include/ac/time.h	2017-06-28 08:15:17.448440471 +0200
++++ b/src/include/ac/time.h	2017-06-28 08:15:31.936517801 +0200
 @@ -29,4 +29,7 @@
  # include <time.h>
  #endif
@@ -814,9 +814,9 @@ diff -Nru -x '*~' openldap-2.4.45-old/include/ac/time.h openldap-2.4.45/include/
 +#include <winsock2.h> // for struct timeval
 +#endif
  #endif /* _AC_TIME_H */
-diff -Nru -x '*~' openldap-2.4.45-old/include/CMakeLists.txt openldap-2.4.45/include/CMakeLists.txt
---- openldap-2.4.45-old/include/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
-+++ openldap-2.4.45/include/CMakeLists.txt	2017-06-28 08:15:31.936517801 +0200
+diff -Nru -x '*~' a/src/include/CMakeLists.txt b/src/include/CMakeLists.txt
+--- a/src/include/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
++++ b/src/include/CMakeLists.txt	2017-06-28 08:15:31.936517801 +0200
 @@ -0,0 +1,30 @@
 +###############################################################
 +include(PrepareConfigureFile)
@@ -848,9 +848,9 @@ diff -Nru -x '*~' openldap-2.4.45-old/include/CMakeLists.txt openldap-2.4.45/inc
 +)
 +
 +install(FILES ${ldap_HDRS} DESTINATION include)
-diff -Nru -x '*~' openldap-2.4.45-old/include/getopt-compat.h openldap-2.4.45/include/getopt-compat.h
---- openldap-2.4.45-old/include/getopt-compat.h	2017-06-28 08:15:17.448440471 +0200
-+++ openldap-2.4.45/include/getopt-compat.h	2017-06-28 08:15:31.936517801 +0200
+diff -Nru -x '*~' a/src/include/getopt-compat.h b/src/include/getopt-compat.h
+--- a/src/include/getopt-compat.h	2017-06-28 08:15:17.448440471 +0200
++++ b/src/include/getopt-compat.h	2017-06-28 08:15:31.936517801 +0200
 @@ -32,7 +32,9 @@
  #define getopt lutil_getopt
  
@@ -862,9 +862,9 @@ diff -Nru -x '*~' openldap-2.4.45-old/include/getopt-compat.h openldap-2.4.45/in
  LDAP_LUTIL_F (int) getopt LDAP_P(( int, char * const [], const char *));
  
  LDAP_END_DECL
-diff -Nru -x '*~' openldap-2.4.45-old/include/ldap_cdefs.h openldap-2.4.45/include/ldap_cdefs.h
---- openldap-2.4.45-old/include/ldap_cdefs.h	2017-06-28 08:15:17.448440471 +0200
-+++ openldap-2.4.45/include/ldap_cdefs.h	2017-06-28 08:15:31.936517801 +0200
+diff -Nru -x '*~' a/src/include/ldap_cdefs.h b/src/include/ldap_cdefs.h
+--- a/src/include/ldap_cdefs.h	2017-06-28 08:15:17.448440471 +0200
++++ b/src/include/ldap_cdefs.h	2017-06-28 08:15:31.936517801 +0200
 @@ -127,68 +127,99 @@
   */
  
@@ -978,9 +978,9 @@ diff -Nru -x '*~' openldap-2.4.45-old/include/ldap_cdefs.h openldap-2.4.45/inclu
  #	define LDAP_REWRITE_F(type)	extern type
  #	define LDAP_REWRITE_V(type)	extern type
  #endif
-diff -Nru -x '*~' openldap-2.4.45-old/include/ldap_log.h openldap-2.4.45/include/ldap_log.h
---- openldap-2.4.45-old/include/ldap_log.h	2017-06-28 08:15:17.448440471 +0200
-+++ openldap-2.4.45/include/ldap_log.h	2017-06-28 08:15:31.940517823 +0200
+diff -Nru -x '*~' a/src/include/ldap_log.h b/src/include/ldap_log.h
+--- a/src/include/ldap_log.h	2017-06-28 08:15:17.448440471 +0200
++++ b/src/include/ldap_log.h	2017-06-28 08:15:31.940517823 +0200
 @@ -132,12 +132,12 @@
       * a 'proper' dllimport.
       */
@@ -1009,9 +1009,9 @@ diff -Nru -x '*~' openldap-2.4.45-old/include/ldap_log.h openldap-2.4.45/include
  	int debug, int level,
  	const char* fmt, ... )) LDAP_GCCATTR((format(printf, 3, 4)));
  
-diff -Nru -x '*~' openldap-2.4.45-old/include/portable.hin openldap-2.4.45/include/portable.hin
---- openldap-2.4.45-old/include/portable.hin	2017-06-28 08:15:17.448440471 +0200
-+++ openldap-2.4.45/include/portable.hin	2017-06-28 08:15:31.940517823 +0200
+diff -Nru -x '*~' a/src/include/portable.hin b/src/include/portable.hin
+--- a/src/include/portable.hin	2017-06-28 08:15:17.448440471 +0200
++++ b/src/include/portable.hin	2017-06-28 08:15:31.940517823 +0200
 @@ -463,6 +463,9 @@
  /* Define to 1 if you have the <regex.h> header file. */
  #undef HAVE_REGEX_H
@@ -1049,9 +1049,9 @@ diff -Nru -x '*~' openldap-2.4.45-old/include/portable.hin openldap-2.4.45/inclu
  #include "ac/fdset.h"
  
  #include "ldap_cdefs.h"
-diff -Nru -x '*~' openldap-2.4.45-old/libraries/CMakeLists.txt openldap-2.4.45/libraries/CMakeLists.txt
---- openldap-2.4.45-old/libraries/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
-+++ openldap-2.4.45/libraries/CMakeLists.txt	2017-06-28 08:15:31.940517823 +0200
+diff -Nru -x '*~' a/src/libraries/CMakeLists.txt b/src/libraries/CMakeLists.txt
+--- a/src/libraries/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
++++ b/src/libraries/CMakeLists.txt	2017-06-28 08:15:31.940517823 +0200
 @@ -0,0 +1,7 @@
 +include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include)
 +add_subdirectory(liblutil)
@@ -1060,9 +1060,9 @@ diff -Nru -x '*~' openldap-2.4.45-old/libraries/CMakeLists.txt openldap-2.4.45/l
 +add_subdirectory(libldap)
 +add_subdirectory(libldap_r)
 +add_subdirectory(librewrite)
-diff -Nru -x '*~' openldap-2.4.45-old/libraries/liblber/CMakeLists.txt openldap-2.4.45/libraries/liblber/CMakeLists.txt
---- openldap-2.4.45-old/libraries/liblber/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
-+++ openldap-2.4.45/libraries/liblber/CMakeLists.txt	2017-06-28 08:15:31.940517823 +0200
+diff -Nru -x '*~' a/src/libraries/liblber/CMakeLists.txt b/src/libraries/liblber/CMakeLists.txt
+--- a/src/libraries/liblber/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
++++ b/src/libraries/liblber/CMakeLists.txt	2017-06-28 08:15:31.940517823 +0200
 @@ -0,0 +1,23 @@
 +set(lber_SRCS
 +    assert.c
@@ -1087,9 +1087,9 @@ diff -Nru -x '*~' openldap-2.4.45-old/libraries/liblber/CMakeLists.txt openldap-
 +target_link_libraries(lber ws2_32)
 +set_target_properties(lber PROPERTIES DEFINE_SYMBOL LBER_LIBRARY)
 +install(TARGETS lber ${INSTALL_TARGETS_DEFAULT_ARGS})
-diff -Nru -x '*~' openldap-2.4.45-old/libraries/liblber/nt_err.c openldap-2.4.45/libraries/liblber/nt_err.c
---- openldap-2.4.45-old/libraries/liblber/nt_err.c	2017-06-28 08:15:17.392440172 +0200
-+++ openldap-2.4.45/libraries/liblber/nt_err.c	2017-06-28 08:15:31.940517823 +0200
+diff -Nru -x '*~' a/src/libraries/liblber/nt_err.c b/src/libraries/liblber/nt_err.c
+--- a/src/libraries/liblber/nt_err.c	2017-06-28 08:15:17.392440172 +0200
++++ b/src/libraries/liblber/nt_err.c	2017-06-28 08:15:31.940517823 +0200
 @@ -15,6 +15,9 @@
  
  #include "portable.h"
@@ -1100,9 +1100,9 @@ diff -Nru -x '*~' openldap-2.4.45-old/libraries/liblber/nt_err.c openldap-2.4.45
  #ifdef HAVE_WINSOCK2
  #include <winsock2.h>
  #elif defined(HAVE_WINSOCK)
-diff -Nru -x '*~' openldap-2.4.45-old/libraries/libldap/CMakeLists.txt openldap-2.4.45/libraries/libldap/CMakeLists.txt
---- openldap-2.4.45-old/libraries/libldap/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
-+++ openldap-2.4.45/libraries/libldap/CMakeLists.txt	2017-06-28 08:15:31.940517823 +0200
+diff -Nru -x '*~' a/src/libraries/libldap/CMakeLists.txt b/src/libraries/libldap/CMakeLists.txt
+--- a/src/libraries/libldap/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
++++ b/src/libraries/libldap/CMakeLists.txt	2017-06-28 08:15:31.940517823 +0200
 @@ -0,0 +1,69 @@
 +set(ldap_SRCS
 +    bind.c
@@ -1173,9 +1173,9 @@ diff -Nru -x '*~' openldap-2.4.45-old/libraries/libldap/CMakeLists.txt openldap-
 +set_target_properties(ldap PROPERTIES DEFINE_SYMBOL LDAP_LIBRARY)
 +target_link_libraries(ldap lber)
 +install(TARGETS ldap ${INSTALL_TARGETS_DEFAULT_ARGS})
-diff -Nru -x '*~' openldap-2.4.45-old/libraries/libldap/ldif.c openldap-2.4.45/libraries/libldap/ldif.c
---- openldap-2.4.45-old/libraries/libldap/ldif.c	2017-06-28 08:15:17.396440194 +0200
-+++ openldap-2.4.45/libraries/libldap/ldif.c	2017-06-28 08:15:31.940517823 +0200
+diff -Nru -x '*~' a/src/libraries/libldap/ldif.c b/src/libraries/libldap/ldif.c
+--- a/src/libraries/libldap/ldif.c	2017-06-28 08:15:17.396440194 +0200
++++ b/src/libraries/libldap/ldif.c	2017-06-28 08:15:31.940517823 +0200
 @@ -38,12 +38,12 @@
  #include <ac/socket.h>
  #include <ac/time.h>
@@ -1191,9 +1191,9 @@ diff -Nru -x '*~' openldap-2.4.45-old/libraries/libldap/ldif.c openldap-2.4.45/l
  #define RIGHT2			0x03
  #define RIGHT4			0x0f
  #define CONTINUED_LINE_MARKER	'\r'
-diff -Nru -x '*~' openldap-2.4.45-old/libraries/libldap/tls_o.c openldap-2.4.45/libraries/libldap/tls_o.c
---- openldap-2.4.45-old/libraries/libldap/tls_o.c	2017-06-28 08:15:17.400440215 +0200
-+++ openldap-2.4.45/libraries/libldap/tls_o.c	2017-06-28 08:15:31.940517823 +0200
+diff -Nru -x '*~' a/src/libraries/libldap/tls_o.c b/src/libraries/libldap/tls_o.c
+--- a/src/libraries/libldap/tls_o.c	2017-06-28 08:15:17.400440215 +0200
++++ b/src/libraries/libldap/tls_o.c	2017-06-28 08:15:31.940517823 +0200
 @@ -146,6 +146,7 @@
  tlso_init( void )
  {
@@ -1210,9 +1210,9 @@ diff -Nru -x '*~' openldap-2.4.45-old/libraries/libldap/tls_o.c openldap-2.4.45/
  
  #if OPENSSL_VERSION_NUMBER < 0x10100000
  	SSL_load_error_strings();
-diff -Nru -x '*~' openldap-2.4.45-old/libraries/libldap/tls_o.c.orig openldap-2.4.45/libraries/libldap/tls_o.c.orig
---- openldap-2.4.45-old/libraries/libldap/tls_o.c.orig	1970-01-01 01:00:00.000000000 +0100
-+++ openldap-2.4.45/libraries/libldap/tls_o.c.orig	2017-06-01 22:01:07.000000000 +0200
+diff -Nru -x '*~' a/src/libraries/libldap/tls_o.c.orig b/src/libraries/libldap/tls_o.c.orig
+--- a/src/libraries/libldap/tls_o.c.orig	1970-01-01 01:00:00.000000000 +0100
++++ b/src/libraries/libldap/tls_o.c.orig	2017-06-01 22:01:07.000000000 +0200
 @@ -0,0 +1,1254 @@
 +/* tls_o.c - Handle tls/ssl using OpenSSL */
 +/* $OpenLDAP$ */
@@ -2468,9 +2468,9 @@ diff -Nru -x '*~' openldap-2.4.45-old/libraries/libldap/tls_o.c.orig openldap-2.
 +};
 +
 +#endif /* HAVE_OPENSSL */
-diff -Nru -x '*~' openldap-2.4.45-old/libraries/libldap/tls_o.c.rej openldap-2.4.45/libraries/libldap/tls_o.c.rej
---- openldap-2.4.45-old/libraries/libldap/tls_o.c.rej	1970-01-01 01:00:00.000000000 +0100
-+++ openldap-2.4.45/libraries/libldap/tls_o.c.rej	2017-06-28 08:15:31.940517823 +0200
+diff -Nru -x '*~' a/src/libraries/libldap/tls_o.c.rej b/src/libraries/libldap/tls_o.c.rej
+--- a/src/libraries/libldap/tls_o.c.rej	1970-01-01 01:00:00.000000000 +0100
++++ b/src/libraries/libldap/tls_o.c.rej	2017-06-28 08:15:31.940517823 +0200
 @@ -0,0 +1,16 @@
 +--- libraries/libldap/tls_o.c	2012-10-10 14:18:49.000000000 +0200
 ++++ libraries/libldap/tls_o.c	2013-01-24 23:36:15.269546400 +0100
@@ -2488,9 +2488,9 @@ diff -Nru -x '*~' openldap-2.4.45-old/libraries/libldap/tls_o.c.rej openldap-2.4
 + }
 + 
 + static tls_ctx *
-diff -Nru -x '*~' openldap-2.4.45-old/libraries/libldap_r/CMakeLists.txt openldap-2.4.45/libraries/libldap_r/CMakeLists.txt
---- openldap-2.4.45-old/libraries/libldap_r/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
-+++ openldap-2.4.45/libraries/libldap_r/CMakeLists.txt	2017-06-28 08:15:31.940517823 +0200
+diff -Nru -x '*~' a/src/libraries/libldap_r/CMakeLists.txt b/src/libraries/libldap_r/CMakeLists.txt
+--- a/src/libraries/libldap_r/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
++++ b/src/libraries/libldap_r/CMakeLists.txt	2017-06-28 08:15:31.940517823 +0200
 @@ -0,0 +1,85 @@
 +include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../libldap)
 +set(ldap_r_SRCS
@@ -2577,9 +2577,9 @@ diff -Nru -x '*~' openldap-2.4.45-old/libraries/libldap_r/CMakeLists.txt openlda
 +set_target_properties(ldap_r PROPERTIES DEFINE_SYMBOL LDAP_LIBRARY)
 +target_link_libraries(ldap_r lber)
 +install(TARGETS ldap_r ${INSTALL_TARGETS_DEFAULT_ARGS})
-diff -Nru -x '*~' openldap-2.4.45-old/libraries/liblunicode/CMakeLists.txt openldap-2.4.45/libraries/liblunicode/CMakeLists.txt
---- openldap-2.4.45-old/libraries/liblunicode/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
-+++ openldap-2.4.45/libraries/liblunicode/CMakeLists.txt	2017-06-28 08:15:31.940517823 +0200
+diff -Nru -x '*~' a/src/libraries/liblunicode/CMakeLists.txt b/src/libraries/liblunicode/CMakeLists.txt
+--- a/src/libraries/liblunicode/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
++++ b/src/libraries/liblunicode/CMakeLists.txt	2017-06-28 08:15:31.940517823 +0200
 @@ -0,0 +1,27 @@
 +#set(UCGENDAT_SRC
 +#ucdata.c
@@ -2608,9 +2608,9 @@ diff -Nru -x '*~' openldap-2.4.45-old/libraries/liblunicode/CMakeLists.txt openl
 +set_target_properties(lunicode PROPERTIES DEFINE_SYMBOL LUNICODE_LIBRARY)
 +target_link_libraries(lunicode ldap lber lutil)
 +install(TARGETS lunicode ${INSTALL_TARGETS_DEFAULT_ARGS})
-diff -Nru -x '*~' openldap-2.4.45-old/libraries/liblutil/CMakeLists.txt openldap-2.4.45/libraries/liblutil/CMakeLists.txt
---- openldap-2.4.45-old/libraries/liblutil/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
-+++ openldap-2.4.45/libraries/liblutil/CMakeLists.txt	2017-06-28 08:15:31.940517823 +0200
+diff -Nru -x '*~' a/src/libraries/liblutil/CMakeLists.txt b/src/libraries/liblutil/CMakeLists.txt
+--- a/src/libraries/liblutil/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
++++ b/src/libraries/liblutil/CMakeLists.txt	2017-06-28 08:15:31.940517823 +0200
 @@ -0,0 +1,31 @@
 +set(lutil_SRCS
 +    base64.c
@@ -2643,9 +2643,9 @@ diff -Nru -x '*~' openldap-2.4.45-old/libraries/liblutil/CMakeLists.txt openldap
 +set_target_properties(lutil PROPERTIES DEFINE_SYMBOL LUTIL_LIBRARY)
 +target_link_libraries(lutil ldap_r lber rpcrt4)
 +install(TARGETS lutil ${INSTALL_TARGETS_DEFAULT_ARGS})
-diff -Nru -x '*~' openldap-2.4.45-old/libraries/librewrite/CMakeLists.txt openldap-2.4.45/libraries/librewrite/CMakeLists.txt
---- openldap-2.4.45-old/libraries/librewrite/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
-+++ openldap-2.4.45/libraries/librewrite/CMakeLists.txt	2017-06-28 08:15:31.940517823 +0200
+diff -Nru -x '*~' a/src/libraries/librewrite/CMakeLists.txt b/src/libraries/librewrite/CMakeLists.txt
+--- a/src/libraries/librewrite/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
++++ b/src/libraries/librewrite/CMakeLists.txt	2017-06-28 08:15:31.940517823 +0200
 @@ -0,0 +1,27 @@
 +set(rewrite_SRCS
 +    config.c
@@ -2674,9 +2674,9 @@ diff -Nru -x '*~' openldap-2.4.45-old/libraries/librewrite/CMakeLists.txt openld
 +target_link_libraries(rewrite_bin rewrite ldap_r lber lutil)
 +set_target_properties(rewrite_bin PROPERTIES RUNTIME_OUTPUT_NAME rewrite)
 +install(TARGETS rewrite rewrite_bin ${INSTALL_TARGETS_DEFAULT_ARGS})
-diff -Nru -x '*~' openldap-2.4.45-old/libraries/librewrite/config.c openldap-2.4.45/libraries/librewrite/config.c
---- openldap-2.4.45-old/libraries/librewrite/config.c	2017-06-28 08:15:17.388440151 +0200
-+++ openldap-2.4.45/libraries/librewrite/config.c	2017-06-28 08:15:31.944517844 +0200
+diff -Nru -x '*~' a/src/libraries/librewrite/config.c b/src/libraries/librewrite/config.c
+--- a/src/libraries/librewrite/config.c	2017-06-28 08:15:17.388440151 +0200
++++ b/src/libraries/librewrite/config.c	2017-06-28 08:15:31.944517844 +0200
 @@ -22,6 +22,8 @@
  #include "rewrite-int.h"
  #include "rewrite-map.h"
@@ -2686,9 +2686,9 @@ diff -Nru -x '*~' openldap-2.4.45-old/libraries/librewrite/config.c openldap-2.4
  /*
   * Parses a plugin map
   */
-diff -Nru -x '*~' openldap-2.4.45-old/libraries/librewrite/rewrite.c openldap-2.4.45/libraries/librewrite/rewrite.c
---- openldap-2.4.45-old/libraries/librewrite/rewrite.c	2017-06-28 08:15:17.388440151 +0200
-+++ openldap-2.4.45/libraries/librewrite/rewrite.c	2017-06-28 08:15:31.944517844 +0200
+diff -Nru -x '*~' a/src/libraries/librewrite/rewrite.c b/src/libraries/librewrite/rewrite.c
+--- a/src/libraries/librewrite/rewrite.c	2017-06-28 08:15:17.388440151 +0200
++++ b/src/libraries/librewrite/rewrite.c	2017-06-28 08:15:31.944517844 +0200
 @@ -18,6 +18,7 @@
   */
  
