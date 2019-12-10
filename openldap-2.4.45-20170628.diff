@@ -2540,7 +2540,7 @@ diff -Nru -x '*~' a/src/libraries/libldap_r/CMakeLists.txt b/src/libraries/libld
 diff -Nru -x '*~' a/src/libraries/liblunicode/CMakeLists.txt b/src/libraries/liblunicode/CMakeLists.txt
 --- a/src/libraries/liblunicode/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
 +++ b/src/libraries/liblunicode/CMakeLists.txt	2017-06-28 08:15:31.940517823 +0200
-@@ -0,0 +1,27 @@
+@@ -0,0 +1,26 @@
 +#set(UCGENDAT_SRC
 +#ucdata.c
 +#ucgendat.c
@@ -2553,8 +2553,7 @@ diff -Nru -x '*~' a/src/libraries/liblunicode/CMakeLists.txt b/src/libraries/lib
 +add_executable(ucgendat ${CMAKE_CURRENT_SOURCE_DIR}/ucdata/ucgendat.c)
 +target_link_libraries(ucgendat lutil lber)
 +
-+get_target_property(UCGENDAT ucgendat LOCATION)
-+add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/uctable.h COMMAND ${UCGENDAT} ${CMAKE_CURRENT_SOURCE_DIR}/UnicodeData.txt -x ${CMAKE_CURRENT_SOURCE_DIR}/CompositionExclusions.txt DEPENDS ${UCGENDAT})
++add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/uctable.h COMMAND "$<TARGET_FILE:ucgendat>" ${CMAKE_CURRENT_SOURCE_DIR}/UnicodeData.txt -x ${CMAKE_CURRENT_SOURCE_DIR}/CompositionExclusions.txt DEPENDS $<TARGET_FILE:ucgendat>)
 +
 +set(lunicode_SRCS
 +    ${CMAKE_CURRENT_BINARY_DIR}/uctable.h
