@@ -1219,8 +1219,8 @@ diff -Nru -x '*~' a/src/libraries/libldap/tls_o.c b/src/libraries/libldap/tls_o.
  #if OPENSSL_VERSION_NUMBER < 0x10100000
  	SSL_load_error_strings();
 diff -Nru -x '*~' a/src/libraries/libldap/tls_o.c.orig b/src/libraries/libldap/tls_o.c.orig
---- a/src/libraries/libldap/tls_o.c.orig	1970-01-01 01:00:00.000000000 +0100
-+++ b/src/libraries/libldap/tls_o.c.orig	2017-06-01 22:01:07.000000000 +0200
+--- a/src/libraries/libldap/tls_o.c.orig_	1970-01-01 01:00:00.000000000 +0100
++++ b/src/libraries/libldap/tls_o.c.orig_	2017-06-01 22:01:07.000000000 +0200
 @@ -0,0 +1,1254 @@
 +/* tls_o.c - Handle tls/ssl using OpenSSL */
 +/* $OpenLDAP$ */
