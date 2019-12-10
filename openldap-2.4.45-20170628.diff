@@ -291,6 +291,11 @@ diff -Nru -x '*~' a/src/ConfigureChecks.cmake b/src/ConfigureChecks.cmake
 +    set(CMAKE_REQUIRED_INCLUDES ${OPENSSL_INCLUDE_DIR})
 +endif(${OPENSSL_FOUND})
 +
++if(${PCRE_FOUND})
++    list(APPEND CMAKE_REQUIRED_INCLUDES "${PCRE_INCLUDE_DIR}")
++endif(${PCRE_FOUND})
++
++
 +if(${SASL2_FOUND})
 +    #/* define if your SASL library has sasl_version() */
 +    set(HAVE_SASL 1)
