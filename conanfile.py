@@ -46,8 +46,8 @@ class CyrusSaslConan(ConanFile):
             self.build_requires("windows_signtool/[>=1.1]@%s/stable" % self.user)
 
     def requirements(self):
-        self.requires("openssl/1.1.0l+0@odant/stable")
-        self.requires("pcre/8.43+4@odant/stable")
+        self.requires("openssl/1.1.0l+2@odant/stable")
+        self.requires("pcre/8.43+5@odant/stable")
         self.requires("cyrus-sasl/2.1.26+0@odant/testing")
 
     def source(self):
