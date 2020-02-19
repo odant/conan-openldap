@@ -24,7 +24,7 @@ class CyrusSaslConan(ConanFile):
     }
     default_options = "dll_sign=True", "ninja=True", "shared=True"
     generators = "cmake"
-    exports_sources = "src/*", "openldap-2.4.45-20170628.diff"
+    exports_sources = "src/*", "openldap-2.4.45.patch"
     no_copy_source = True
     build_policy = "missing"
 
@@ -51,7 +51,7 @@ class CyrusSaslConan(ConanFile):
         self.requires("cyrus-sasl/2.1.26+0@odant/testing")
 
     def source(self):
-        tools.patch(patch_file="openldap-2.4.45-20170628.diff")
+        tools.patch(patch_file="openldap-2.4.45.patch")
 
     def build(self):
         build_type = "RelWithDebInfo" if self.settings.build_type == "Release" else "Debug"
