@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000..bff2a20
 --- /dev/null
 +++ b/src/CMakeLists.txt
-@@ -0,0 +1,148 @@
+@@ -0,0 +1,150 @@
 +# openldap cmake based build system
 +# copyright (c) 2012 Patrick Spendrin <pspendrin@kde.org>
 +
@@ -36,7 +36,7 @@ index 0000000..bff2a20
 +set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
 +include(MacroBoolTo01)
 +
-+if(EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
++if(CONAN_EXPORTED)
 +    include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 +    conan_basic_setup()
 +else()
@@ -90,6 +90,8 @@ index 0000000..bff2a20
 +                 pcre/8.43+5@odant/stable
 +                 cyrus-sasl/2.1.26+0@odant/testing
 +        BUILD_TYPE ${BUILD_TYPE_FOR_CONAN}
++        IMPORTS
++                 "bin, *.* -> ./bin"
 +    #    CONANFILE conanfile.py
 +        BASIC_SETUP NO_OUTPUT_DIRS UPDATE
 +        BUILD outdated
