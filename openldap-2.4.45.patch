@@ -1,6 +1,6 @@
 diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
 new file mode 100644
-index 0000000..bff2a20
+index 0000000..1eceaae
 --- /dev/null
 +++ b/src/CMakeLists.txt
 @@ -0,0 +1,150 @@
@@ -156,11 +156,11 @@ index 0000000..bff2a20
 +endif(BUILD_TOOLS)
 diff --git a/src/CMakeSettings.json b/src/CMakeSettings.json
 new file mode 100644
-index 0000000..4ff5716
+index 0000000..393cb2c
 --- /dev/null
 +++ b/src/CMakeSettings.json
 @@ -0,0 +1,22 @@
-+п»ї{
++РїВ»С—{
 +  // See https://go.microsoft.com//fwlink//?linkid=834763 for more information about this file.
 +  "configurations": [
 +    {
@@ -185,10 +185,10 @@ index 0000000..4ff5716
 \ No newline at end of file
 diff --git a/src/ConfigureChecks.cmake b/src/ConfigureChecks.cmake
 new file mode 100644
-index 0000000..b6a8ce2
+index 0000000..872b59b
 --- /dev/null
 +++ b/src/ConfigureChecks.cmake
-@@ -0,0 +1,538 @@
+@@ -0,0 +1,547 @@
 +if(BUILD_REENTRANT)
 +    set(REENTRANT 1)
 +    set(_REENTRANT 1)
@@ -615,6 +615,15 @@ index 0000000..b6a8ce2
 +
 +#/* Patch */
 +set(LDAP_VENDOR_VERSION_PATCH 45)
++
++#/* Build */
++set(LDAP_VENDOR_VERSION_BUILD 0)
++
++#/* RC Versions */
++set(LDAP_RC_FILE_VERSION "${LDAP_VENDOR_VERSION_MAJOR},${LDAP_VENDOR_VERSION_MINOR},${LDAP_VENDOR_VERSION_PATCH},${LDAP_VENDOR_VERSION_BUILD}")
++set(LDAP_RC_PRODUCT_VERSION "${LDAP_VENDOR_VERSION_MAJOR},${LDAP_VENDOR_VERSION_MINOR},${LDAP_VENDOR_VERSION_PATCH},${LDAP_VENDOR_VERSION_BUILD}")
++set(LDAP_RC_FILE_VERSION_STR "\"${LDAP_VENDOR_VERSION_MAJOR}.${LDAP_VENDOR_VERSION_MINOR}.${LDAP_VENDOR_VERSION_PATCH}.${LDAP_VENDOR_VERSION_BUILD}\"")
++set(LDAP_RC_PRODUCT_VERSION_STR "\"${LDAP_VENDOR_VERSION_MAJOR}.${LDAP_VENDOR_VERSION_MINOR}.${LDAP_VENDOR_VERSION_PATCH}.${LDAP_VENDOR_VERSION_BUILD}\"")
 +
 +#/* Version */
 +MATH(EXPR LDAP_VENDOR_VERSION "${LDAP_VENDOR_VERSION_MAJOR} * 10000 + ${LDAP_VENDOR_VERSION_MINOR} * 100 + ${LDAP_VENDOR_VERSION_PATCH}")
@@ -1829,7 +1838,7 @@ index f993160..bc2f069 100644
  	const char* fmt, ... )) LDAP_GCCATTR((format(printf, 3, 4)));
  
 diff --git a/src/include/portable.hin b/src/include/portable.hin
-index 859067c..4985414 100644
+index 859067c..6a14c9e 100644
 --- a/src/include/portable.hin
 +++ b/src/include/portable.hin
 @@ -463,6 +463,9 @@
@@ -1842,7 +1851,23 @@ index 859067c..4985414 100644
  /* Define to 1 if you have the <resolv.h> header file. */
  #undef HAVE_RESOLV_H
  
-@@ -1105,18 +1108,12 @@
+@@ -858,6 +861,15 @@
+ /* Patch */
+ #undef LDAP_VENDOR_VERSION_PATCH
+ 
++/* Patch */
++#undef LDAP_VENDOR_VERSION_BUILD
++
++/* RC Versions */
++#undef LDAP_RC_FILE_VERSION
++#undef LDAP_RC_PRODUCT_VERSION
++#undef LDAP_RC_FILE_VERSION_STR
++#undef LDAP_RC_PRODUCT_VERSION_STR
++
+ /* define if memcmp is not 8-bit clean or is otherwise broken */
+ #undef NEED_MEMCMP_REPLACEMENT
+ 
+@@ -1105,18 +1117,12 @@
  /* Define to `int' if <signal.h> does not define. */
  #undef sig_atomic_t
  
@@ -1861,7 +1886,7 @@ index 859067c..4985414 100644
  /* Define to `int' if <sys/types.h> doesn't define. */
  #undef uid_t
  
-@@ -1165,6 +1162,10 @@
+@@ -1165,6 +1171,10 @@
  #define vsprintf ber_pvt_vsprintf
  #endif
  
@@ -1887,10 +1912,10 @@ index 0000000..208d482
 +add_subdirectory(librewrite)
 diff --git a/src/libraries/liblber/CMakeLists.txt b/src/libraries/liblber/CMakeLists.txt
 new file mode 100644
-index 0000000..4b23277
+index 0000000..93e3880
 --- /dev/null
 +++ b/src/libraries/liblber/CMakeLists.txt
-@@ -0,0 +1,25 @@
+@@ -0,0 +1,28 @@
 +set(lber_SRCS
 +    assert.c
 +    decode.c
@@ -1905,6 +1930,9 @@ index 0000000..4b23277
 +
 +if(WIN32)
 +    list(APPEND lber_SRCS nt_err.c)
++    if("${LDAP_SHARED}" STREQUAL "SHARED")
++        list(APPEND lber_SRCS lber.rc)
++    endif()
 +endif(WIN32)
 +if(UNIX)
 +    list(APPEND lber_SRCS stdio.c)
@@ -1916,6 +1944,57 @@ index 0000000..4b23277
 +endif(WIN32)
 +set_target_properties(lber PROPERTIES DEFINE_SYMBOL LBER_LIBRARY)
 +install(TARGETS lber ${INSTALL_TARGETS_DEFAULT_ARGS})
+diff --git a/src/libraries/liblber/lber.rc b/src/libraries/liblber/lber.rc
+new file mode 100644
+index 0000000..214798c
+--- /dev/null
++++ b/src/libraries/liblber/lber.rc
+@@ -0,0 +1,45 @@
++#include <windows.h>
++#include "portable.h"
++
++/////////////////////////////////////////////////////////////////////////////
++//
++// Version
++//
++
++VS_VERSION_INFO VERSIONINFO
++ FILEVERSION LDAP_RC_FILE_VERSION
++ PRODUCTVERSION LDAP_RC_PRODUCT_VERSION
++ FILEFLAGSMASK 0x3fL
++#ifdef _DEBUG
++ FILEFLAGS 0x1L
++#else
++ FILEFLAGS 0x0L
++#endif
++ FILEOS 0x40004L
++ FILETYPE 0x2L
++ FILESUBTYPE 0x0L
++BEGIN
++    BLOCK "StringFileInfo"
++    BEGIN
++        BLOCK "040904e2"
++        BEGIN
++            VALUE "Comments", "OpenLDAP Software is an open source implementation of the Lightweight Directory Access Protocol.\0"
++            VALUE "CompanyName", "OpenLDAP Foundation\0"
++            VALUE "FileDescription", "OpenLDAP library\0"
++            VALUE "FileVersion", LDAP_RC_FILE_VERSION_STR
++            VALUE "InternalName", "lber\0"
++            VALUE "LegalCopyright", "The OpenLDAP Public License\0"
++            VALUE "LegalTrademarks", "See http://www.openldap.org/software/release/license.html\0"
++            VALUE "OriginalFilename", "lber.dll\0"
++            VALUE "PrivateBuild", "\0"
++            VALUE "ProductName", "OpenLDAP library\0"
++            VALUE "ProductVersion", LDAP_RC_PRODUCT_VERSION_STR
++            VALUE "SpecialBuild", "\0"
++        END
++    END
++    BLOCK "VarFileInfo"
++    BEGIN
++        VALUE "Translation", 0x409, 1250
++    END
++END
++
 diff --git a/src/libraries/liblber/nt_err.c b/src/libraries/liblber/nt_err.c
 index bfccef1..3372f2d 100644
 --- a/src/libraries/liblber/nt_err.c
@@ -1932,10 +2011,10 @@ index bfccef1..3372f2d 100644
  #elif defined(HAVE_WINSOCK)
 diff --git a/src/libraries/libldap/CMakeLists.txt b/src/libraries/libldap/CMakeLists.txt
 new file mode 100644
-index 0000000..2de4b22
+index 0000000..a0d86bb
 --- /dev/null
 +++ b/src/libraries/libldap/CMakeLists.txt
-@@ -0,0 +1,72 @@
+@@ -0,0 +1,76 @@
 +set(ldap_SRCS
 +    bind.c
 +    open.c
@@ -2001,6 +2080,10 @@ index 0000000..2de4b22
 +    fetch.c
 +)
 +
++if(WIN32 AND "${LDAP_SHARED}" STREQUAL "SHARED")
++    list(APPEND ldap_SRCS ldap.rc)
++endif()
++
 +add_library(ldap ${LDAP_SHARED} ${ldap_SRCS})
 +set_target_properties(ldap PROPERTIES DEFINE_SYMBOL LDAP_LIBRARY)
 +target_link_libraries(ldap lber)
@@ -2008,6 +2091,57 @@ index 0000000..2de4b22
 +    target_link_libraries (ldap ${SASL2_LIBRARIES})
 +endif()
 +install(TARGETS ldap ${INSTALL_TARGETS_DEFAULT_ARGS})
+diff --git a/src/libraries/libldap/ldap.rc b/src/libraries/libldap/ldap.rc
+new file mode 100644
+index 0000000..0169c9d
+--- /dev/null
++++ b/src/libraries/libldap/ldap.rc
+@@ -0,0 +1,45 @@
++#include <windows.h>
++#include "portable.h"
++
++/////////////////////////////////////////////////////////////////////////////
++//
++// Version
++//
++
++VS_VERSION_INFO VERSIONINFO
++ FILEVERSION LDAP_RC_FILE_VERSION
++ PRODUCTVERSION LDAP_RC_PRODUCT_VERSION
++ FILEFLAGSMASK 0x3fL
++#ifdef _DEBUG
++ FILEFLAGS 0x1L
++#else
++ FILEFLAGS 0x0L
++#endif
++ FILEOS 0x40004L
++ FILETYPE 0x2L
++ FILESUBTYPE 0x0L
++BEGIN
++    BLOCK "StringFileInfo"
++    BEGIN
++        BLOCK "040904e2"
++        BEGIN
++            VALUE "Comments", "OpenLDAP Software is an open source implementation of the Lightweight Directory Access Protocol.\0"
++            VALUE "CompanyName", "OpenLDAP Foundation\0"
++            VALUE "FileDescription", "OpenLDAP library\0"
++            VALUE "FileVersion", LDAP_RC_FILE_VERSION_STR
++            VALUE "InternalName", "lbap\0"
++            VALUE "LegalCopyright", "The OpenLDAP Public License\0"
++            VALUE "LegalTrademarks", "See http://www.openldap.org/software/release/license.html\0"
++            VALUE "OriginalFilename", "ldap.dll\0"
++            VALUE "PrivateBuild", "\0"
++            VALUE "ProductName", "OpenLDAP library\0"
++            VALUE "ProductVersion", LDAP_RC_PRODUCT_VERSION_STR
++            VALUE "SpecialBuild", "\0"
++        END
++    END
++    BLOCK "VarFileInfo"
++    BEGIN
++        VALUE "Translation", 0x409, 1250
++    END
++END
++
 diff --git a/src/libraries/libldap/ldif.c b/src/libraries/libldap/ldif.c
 index 8b20c2a..0c24470 100644
 --- a/src/libraries/libldap/ldif.c
@@ -3331,10 +3465,10 @@ index 0000000..0fc17ec
 + static tls_ctx *
 diff --git a/src/libraries/libldap_r/CMakeLists.txt b/src/libraries/libldap_r/CMakeLists.txt
 new file mode 100644
-index 0000000..feb16bc
+index 0000000..69fe394
 --- /dev/null
 +++ b/src/libraries/libldap_r/CMakeLists.txt
-@@ -0,0 +1,88 @@
+@@ -0,0 +1,92 @@
 +include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../libldap)
 +set(ldap_r_SRCS
 +    ${CMAKE_CURRENT_SOURCE_DIR}/../libldap/bind.c
@@ -3416,6 +3550,10 @@ index 0000000..feb16bc
 +    thr_debug.c
 +)
 +
++if(WIN32 AND "${LDAP_SHARED}" STREQUAL "SHARED")
++    list(APPEND ldap_r_add_SRCS ldap_r.rc)
++endif()
++
 +add_library(ldap_r ${LDAP_SHARED} ${ldap_r_SRCS} ${ldap_r_add_SRCS})
 +set_target_properties(ldap_r PROPERTIES DEFINE_SYMBOL LDAP_LIBRARY)
 +target_link_libraries(ldap_r lber)
@@ -3423,6 +3561,57 @@ index 0000000..feb16bc
 +    target_link_libraries (ldap_r ${SASL2_LIBRARIES})
 +endif()
 +install(TARGETS ldap_r ${INSTALL_TARGETS_DEFAULT_ARGS})
+diff --git a/src/libraries/libldap_r/ldap_r.rc b/src/libraries/libldap_r/ldap_r.rc
+new file mode 100644
+index 0000000..62d4ba4
+--- /dev/null
++++ b/src/libraries/libldap_r/ldap_r.rc
+@@ -0,0 +1,45 @@
++#include <windows.h>
++#include "portable.h"
++
++/////////////////////////////////////////////////////////////////////////////
++//
++// Version
++//
++
++VS_VERSION_INFO VERSIONINFO
++ FILEVERSION LDAP_RC_FILE_VERSION
++ PRODUCTVERSION LDAP_RC_PRODUCT_VERSION
++ FILEFLAGSMASK 0x3fL
++#ifdef _DEBUG
++ FILEFLAGS 0x1L
++#else
++ FILEFLAGS 0x0L
++#endif
++ FILEOS 0x40004L
++ FILETYPE 0x2L
++ FILESUBTYPE 0x0L
++BEGIN
++    BLOCK "StringFileInfo"
++    BEGIN
++        BLOCK "040904e2"
++        BEGIN
++            VALUE "Comments", "OpenLDAP Software is an open source implementation of the Lightweight Directory Access Protocol.\0"
++            VALUE "CompanyName", "OpenLDAP Foundation\0"
++            VALUE "FileDescription", "OpenLDAP library\0"
++            VALUE "FileVersion", LDAP_RC_FILE_VERSION_STR
++            VALUE "InternalName", "lbap_r\0"
++            VALUE "LegalCopyright", "The OpenLDAP Public License\0"
++            VALUE "LegalTrademarks", "See http://www.openldap.org/software/release/license.html\0"
++            VALUE "OriginalFilename", "lbap_r.dll\0"
++            VALUE "PrivateBuild", "\0"
++            VALUE "ProductName", "OpenLDAP library\0"
++            VALUE "ProductVersion", LDAP_RC_PRODUCT_VERSION_STR
++            VALUE "SpecialBuild", "\0"
++        END
++    END
++    BLOCK "VarFileInfo"
++    BEGIN
++        VALUE "Translation", 0x409, 1250
++    END
++END
++
 diff --git a/src/libraries/libldap_r/thr_nt.c b/src/libraries/libldap_r/thr_nt.c
 index e5442f2..cb9f080 100644
 --- a/src/libraries/libldap_r/thr_nt.c
@@ -3439,10 +3628,10 @@ index e5442f2..cb9f080 100644
  
 diff --git a/src/libraries/liblunicode/CMakeLists.txt b/src/libraries/liblunicode/CMakeLists.txt
 new file mode 100644
-index 0000000..3e682d1
+index 0000000..e9b46fe
 --- /dev/null
 +++ b/src/libraries/liblunicode/CMakeLists.txt
-@@ -0,0 +1,26 @@
+@@ -0,0 +1,30 @@
 +#set(UCGENDAT_SRC
 +#ucdata.c
 +#ucgendat.c
@@ -3465,16 +3654,71 @@ index 0000000..3e682d1
 +    ucstr.c
 +)
 +
++if(WIN32 AND "${LDAP_SHARED}" STREQUAL "SHARED")
++    list(APPEND lunicode_SRCS lunicode.rc)
++endif()
++
 +add_library(lunicode ${LDAP_SHARED} ${lunicode_SRCS})
 +set_target_properties(lunicode PROPERTIES DEFINE_SYMBOL LUNICODE_LIBRARY)
 +target_link_libraries(lunicode ldap lber lutil)
 +install(TARGETS lunicode ${INSTALL_TARGETS_DEFAULT_ARGS})
+diff --git a/src/libraries/liblunicode/lunicode.rc b/src/libraries/liblunicode/lunicode.rc
+new file mode 100644
+index 0000000..47e54ff
+--- /dev/null
++++ b/src/libraries/liblunicode/lunicode.rc
+@@ -0,0 +1,45 @@
++#include <windows.h>
++#include "portable.h"
++
++/////////////////////////////////////////////////////////////////////////////
++//
++// Version
++//
++
++VS_VERSION_INFO VERSIONINFO
++ FILEVERSION LDAP_RC_FILE_VERSION
++ PRODUCTVERSION LDAP_RC_PRODUCT_VERSION
++ FILEFLAGSMASK 0x3fL
++#ifdef _DEBUG
++ FILEFLAGS 0x1L
++#else
++ FILEFLAGS 0x0L
++#endif
++ FILEOS 0x40004L
++ FILETYPE 0x2L
++ FILESUBTYPE 0x0L
++BEGIN
++    BLOCK "StringFileInfo"
++    BEGIN
++        BLOCK "040904e2"
++        BEGIN
++            VALUE "Comments", "OpenLDAP Software is an open source implementation of the Lightweight Directory Access Protocol.\0"
++            VALUE "CompanyName", "OpenLDAP Foundation\0"
++            VALUE "FileDescription", "OpenLDAP library\0"
++            VALUE "FileVersion", LDAP_RC_FILE_VERSION_STR
++            VALUE "InternalName", "lunicode\0"
++            VALUE "LegalCopyright", "The OpenLDAP Public License\0"
++            VALUE "LegalTrademarks", "See http://www.openldap.org/software/release/license.html\0"
++            VALUE "OriginalFilename", "lunicode.dll\0"
++            VALUE "PrivateBuild", "\0"
++            VALUE "ProductName", "OpenLDAP library\0"
++            VALUE "ProductVersion", LDAP_RC_PRODUCT_VERSION_STR
++            VALUE "SpecialBuild", "\0"
++        END
++    END
++    BLOCK "VarFileInfo"
++    BEGIN
++        VALUE "Translation", 0x409, 1250
++    END
++END
++
 diff --git a/src/libraries/liblutil/CMakeLists.txt b/src/libraries/liblutil/CMakeLists.txt
 new file mode 100644
-index 0000000..de5f1c0
+index 0000000..ad2acfa
 --- /dev/null
 +++ b/src/libraries/liblutil/CMakeLists.txt
-@@ -0,0 +1,34 @@
+@@ -0,0 +1,37 @@
 +set(lutil_SRCS
 +    base64.c
 +    entropy.c
@@ -3497,6 +3741,9 @@ index 0000000..de5f1c0
 +
 +if(WIN32)
 +    list(APPEND lutil_SRCS getopt.c ntservice.c slapdmsg.rc)
++    if("${LDAP_SHARED}" STREQUAL "SHARED")
++        list(APPEND lutil_SRCS lutil.rc)
++    endif()
 +endif(WIN32)
 +if(UNIX)
 +    list(APPEND lutil_SRCS detach.c)
@@ -3509,12 +3756,63 @@ index 0000000..de5f1c0
 +    target_link_libraries(lutil rpcrt4)
 +endif(WIN32)
 +install(TARGETS lutil ${INSTALL_TARGETS_DEFAULT_ARGS})
+diff --git a/src/libraries/liblutil/lutil.rc b/src/libraries/liblutil/lutil.rc
+new file mode 100644
+index 0000000..effefb5
+--- /dev/null
++++ b/src/libraries/liblutil/lutil.rc
+@@ -0,0 +1,45 @@
++#include <windows.h>
++#include "portable.h"
++
++/////////////////////////////////////////////////////////////////////////////
++//
++// Version
++//
++
++VS_VERSION_INFO VERSIONINFO
++ FILEVERSION LDAP_RC_FILE_VERSION
++ PRODUCTVERSION LDAP_RC_PRODUCT_VERSION
++ FILEFLAGSMASK 0x3fL
++#ifdef _DEBUG
++ FILEFLAGS 0x1L
++#else
++ FILEFLAGS 0x0L
++#endif
++ FILEOS 0x40004L
++ FILETYPE 0x2L
++ FILESUBTYPE 0x0L
++BEGIN
++    BLOCK "StringFileInfo"
++    BEGIN
++        BLOCK "040904e2"
++        BEGIN
++            VALUE "Comments", "OpenLDAP Software is an open source implementation of the Lightweight Directory Access Protocol.\0"
++            VALUE "CompanyName", "OpenLDAP Foundation\0"
++            VALUE "FileDescription", "OpenLDAP library\0"
++            VALUE "FileVersion", LDAP_RC_FILE_VERSION_STR
++            VALUE "InternalName", "lutil\0"
++            VALUE "LegalCopyright", "The OpenLDAP Public License\0"
++            VALUE "LegalTrademarks", "See http://www.openldap.org/software/release/license.html\0"
++            VALUE "OriginalFilename", "lutil.dll\0"
++            VALUE "PrivateBuild", "\0"
++            VALUE "ProductName", "OpenLDAP library\0"
++            VALUE "ProductVersion", LDAP_RC_PRODUCT_VERSION_STR
++            VALUE "SpecialBuild", "\0"
++        END
++    END
++    BLOCK "VarFileInfo"
++    BEGIN
++        VALUE "Translation", 0x409, 1250
++    END
++END
++
 diff --git a/src/libraries/librewrite/CMakeLists.txt b/src/libraries/librewrite/CMakeLists.txt
 new file mode 100644
-index 0000000..5dcabc2
+index 0000000..ca745b8
 --- /dev/null
 +++ b/src/libraries/librewrite/CMakeLists.txt
-@@ -0,0 +1,27 @@
+@@ -0,0 +1,31 @@
 +set(rewrite_SRCS
 +    config.c
 +    context.c
@@ -3529,6 +3827,10 @@ index 0000000..5dcabc2
 +    xmap.c
 +    parse.c
 +)
++
++if(WIN32 AND "${LDAP_SHARED}" STREQUAL "SHARED")
++    list(APPEND rewrite_SRCS rewrite.rc)
++endif()
 +
 +add_library(rewrite ${LDAP_SHARED} ${rewrite_SRCS})
 +set_target_properties(rewrite PROPERTIES DEFINE_SYMBOL REWRITE_LIBRARY)
@@ -3578,3 +3880,54 @@ index 1d27188..0165516 100644
  static void
  apply( 
  		FILE *fin, 
+diff --git a/src/libraries/librewrite/rewrite.rc b/src/libraries/librewrite/rewrite.rc
+new file mode 100644
+index 0000000..db6e687
+--- /dev/null
++++ b/src/libraries/librewrite/rewrite.rc
+@@ -0,0 +1,45 @@
++#include <windows.h>
++#include "portable.h"
++
++/////////////////////////////////////////////////////////////////////////////
++//
++// Version
++//
++
++VS_VERSION_INFO VERSIONINFO
++ FILEVERSION LDAP_RC_FILE_VERSION
++ PRODUCTVERSION LDAP_RC_PRODUCT_VERSION
++ FILEFLAGSMASK 0x3fL
++#ifdef _DEBUG
++ FILEFLAGS 0x1L
++#else
++ FILEFLAGS 0x0L
++#endif
++ FILEOS 0x40004L
++ FILETYPE 0x2L
++ FILESUBTYPE 0x0L
++BEGIN
++    BLOCK "StringFileInfo"
++    BEGIN
++        BLOCK "040904e2"
++        BEGIN
++            VALUE "Comments", "OpenLDAP Software is an open source implementation of the Lightweight Directory Access Protocol.\0"
++            VALUE "CompanyName", "OpenLDAP Foundation\0"
++            VALUE "FileDescription", "OpenLDAP library\0"
++            VALUE "FileVersion", LDAP_RC_FILE_VERSION_STR
++            VALUE "InternalName", "rewrite\0"
++            VALUE "LegalCopyright", "The OpenLDAP Public License\0"
++            VALUE "LegalTrademarks", "See http://www.openldap.org/software/release/license.html\0"
++            VALUE "OriginalFilename", "rewrite.dll\0"
++            VALUE "PrivateBuild", "\0"
++            VALUE "ProductName", "OpenLDAP library\0"
++            VALUE "ProductVersion", LDAP_RC_PRODUCT_VERSION_STR
++            VALUE "SpecialBuild", "\0"
++        END
++    END
++    BLOCK "VarFileInfo"
++    BEGIN
++        VALUE "Translation", 0x409, 1250
++    END
++END
++
