@@ -12,7 +12,7 @@ def get_safe(options, name):
 
 class CyrusSaslConan(ConanFile):
     name = "openldap"
-    version = "2.4.45+0"
+    version = "2.4.45+1"
     license = "Apache License v2.0"
     description = "OpenLDAP C++ library"
     url = "https://www.openldap.org/"
@@ -52,6 +52,9 @@ class CyrusSaslConan(ConanFile):
 
     def source(self):
         tools.patch(patch_file="openldap-2.4.45.patch")
+        # Executable permisions on Unix
+        if self.settings.os != "Windows":
+            self.run("chmod +x %s" % "src/build/mkversion")
 
     def build(self):
         build_type = "RelWithDebInfo" if self.settings.build_type == "Release" else "Debug"
