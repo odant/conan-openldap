@@ -12,7 +12,7 @@ def get_safe(options, name):
 
 class CyrusSaslConan(ConanFile):
     name = "openldap"
-    version = "2.4.45+1"
+    version = "2.4.45+2"
     license = "Apache License v2.0"
     description = "OpenLDAP C++ library"
     url = "https://www.openldap.org/"
@@ -27,6 +27,9 @@ class CyrusSaslConan(ConanFile):
     exports_sources = "src/*", "openldap-2.4.45.patch"
     no_copy_source = True
     build_policy = "missing"
+    #
+    _openssl_version = "1.1.1d+0"
+    _openssl_channel = "stable"
 
     def configure(self):
         if self.settings.compiler.get_safe("libcxx") == "libstdc++":
@@ -46,9 +49,9 @@ class CyrusSaslConan(ConanFile):
             self.build_requires("windows_signtool/[>=1.1]@%s/stable" % self.user)
 
     def requirements(self):
-        self.requires("openssl/1.1.0l+2@odant/stable")
+        self.requires("openssl/%s@%s/%s" % (self._openssl_version, self.user, self._openssl_channel))
         self.requires("pcre/8.43+5@odant/stable")
-        self.requires("cyrus-sasl/2.1.26+0@odant/testing")
+        self.requires("cyrus-sasl/2.1.26+2@odant/testing")
 
     def source(self):
         tools.patch(patch_file="openldap-2.4.45.patch")
