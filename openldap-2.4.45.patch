@@ -1621,13 +1621,13 @@ index 0000000..cfbfb9e
 +    ${CMAKE_CURRENT_BINARY_DIR}/ldap_features.h
 +
 +# non-generated headers:
-+    lber.h
-+    ldap.h
-+    ldap_cdefs.h
-+    ldap_schema.h
-+    ldap_utf8.h
-+    slapi-plugin.h
-+    ldif.h
++#    lber.h
++#    ldap.h
++#    ldap_cdefs.h
++#    ldap_schema.h
++#    ldap_utf8.h
++#    slapi-plugin.h
++#    ldif.h
 +)
 +
 +install(FILES ${ldap_HDRS} DESTINATION include)
