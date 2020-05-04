@@ -66,6 +66,8 @@ class CyrusSaslConan(ConanFile):
 
     def package(self):
         self.copy("FindOpenLDAP.cmake", src=".", dst=".")
+        self.copy("*.h", dst="include", src="./src/include", keep_path=True)
+        self.copy("*.h", dst="libraries", src="./src/libraries", keep_path=True)
         # Sign DLL
         if self.options.get_safe("dll_sign"):
             import windows_signtool
