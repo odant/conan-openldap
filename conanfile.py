@@ -16,7 +16,7 @@ class CyrusSaslConan(ConanFile):
     }
     default_options = "dll_sign=True", "ninja=True", "shared=True"
     generators = "cmake"
-    exports_sources = "src/*", "openldap-2.4.45.patch"
+    exports_sources = "src/*", "openldap-2.4.45.patch", "FindOpenLDAP.cmake"
     no_copy_source = True
     build_policy = "missing"
     #
@@ -65,6 +65,7 @@ class CyrusSaslConan(ConanFile):
         self.info.options.ninja = "any"
 
     def package(self):
+        self.copy("FindOpenLDAP.cmake", src=".", dst=".")
         # Sign DLL
         if self.options.get_safe("dll_sign"):
             import windows_signtool
