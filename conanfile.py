@@ -4,7 +4,7 @@ import os, glob, shutil
 
 class CyrusSaslConan(ConanFile):
     name = "openldap"
-    version = "2.4.45+4"
+    version = "2.4.45+5"
     license = "Apache License v2.0"
     description = "OpenLDAP C++ library"
     url = "https://www.openldap.org/"
