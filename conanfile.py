@@ -43,7 +43,7 @@ class CyrusSaslConan(ConanFile):
     def requirements(self):
         self.requires("openssl/%s@%s/%s" % (self._openssl_version, self.user, self._openssl_channel))
         self.requires("pcre/8.43+5@odant/stable")
-        self.requires("cyrus-sasl/2.1.26+2@odant/testing")
+        self.requires("cyrus-sasl/2.1.26+7@odant/testing")
 
     def source(self):
         tools.patch(patch_file="openldap-2.4.45.patch")
