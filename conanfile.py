@@ -36,14 +36,14 @@ class CyrusSaslConan(ConanFile):
 
     def build_requirements(self):
         if self.options.get_safe("ninja"):
-            self.build_requires("ninja_installer/1.9.0@bincrafters/stable")
+            self.build_requires("ninja/1.10.1")
         if self.options.get_safe("dll_sign"):
             self.build_requires("windows_signtool/[>=1.1]@%s/stable" % self.user)
 
     def requirements(self):
         self.requires("openssl/%s@%s/%s" % (self._openssl_version, self.user, self._openssl_channel))
         self.requires("pcre/8.43+5@odant/stable")
-        self.requires("cyrus-sasl/2.1.26+7@odant/testing")
+        self.requires("cyrus-sasl/2.1.26+8@odant/testing")
 
     def source(self):
         tools.patch(patch_file="openldap-2.4.45.patch")
