@@ -42,7 +42,7 @@ class CyrusSaslConan(ConanFile):
 
     def requirements(self):
         self.requires("openssl/%s@%s/%s" % (self._openssl_version, self.user, self._openssl_channel))
-        self.requires("pcre/8.43+5@odant/stable")
+        self.requires("pcre/8.44+0@odant/stable")
         self.requires("cyrus-sasl/2.1.26+8@odant/testing")
 
     def source(self):
