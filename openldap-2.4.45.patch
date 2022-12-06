@@ -87,7 +87,7 @@ index 0000000..1eceaae
 +    include(conan)
 +    conan_cmake_run(
 +        REQUIRES openssl/1.1.0l+2@odant/stable
-+                 pcre/8.43+5@odant/stable
++                 pcre2/[>=10.40]@odant/stable
 +                 cyrus-sasl/2.1.26+0@odant/testing
 +        BUILD_TYPE ${BUILD_TYPE_FOR_CONAN}
 +        IMPORTS
@@ -126,10 +126,10 @@ index 0000000..1eceaae
 +# find required packages
 +find_package(OpenSSL REQUIRED)
 +# KDE doesn't provide another pcre library - so accomodate with pcre
-+find_package(PCRE REQUIRED)
++find_package(PCRE2 REQUIRED)
 +find_package(Sasl2)
 +
-+include_directories(${OPENSSL_INCLUDE_DIR} ${PCRE_INCLUDE_DIR})
++include_directories(${OPENSSL_INCLUDE_DIR} ${PCRE2_INCLUDE_DIR})
 +include(ConfigureChecks.cmake)
 +
 +if(WIN32 AND NOT MINGW)
@@ -233,9 +233,9 @@ index 0000000..872b59b
 +    list(APPEND CMAKE_REQUIRED_INCLUDES ${OPENSSL_INCLUDE_DIR})
 +endif(${OPENSSL_FOUND})
 +
-+if(${PCRE_FOUND})
-+    list(APPEND CMAKE_REQUIRED_INCLUDES "${PCRE_INCLUDE_DIR}")
-+endif(${PCRE_FOUND})
++if(${PCRE2_FOUND})
++    list(APPEND CMAKE_REQUIRED_INCLUDES "${PCRE2_INCLUDE_DIR}")
++endif(${PCRE2_FOUND})
 +
 +
 +if(${SASL2_FOUND})
@@ -1590,7 +1590,7 @@ index 0000000..3678ffb
 +        # Core dependencies
 +        #self.requires("zlib/1.2.11@odant/stable")
 +        self.requires("openssl/1.1.0l+2@odant/stable")
-+        self.requires("pcre/8.43+5@odant/stable")
++        self.requires("pcre2/[>=10.40]@odant/stable")
 +        self.requires("cyrus-sasl/2.1.26+0@odant/testing")
 +
 +    def imports(self):
@@ -3982,7 +3982,7 @@ index 0000000..ca745b8
 +add_library(rewrite ${LDAP_SHARED} ${rewrite_SRCS})
 +set_target_properties(rewrite PROPERTIES DEFINE_SYMBOL REWRITE_LIBRARY)
 +target_link_libraries(rewrite lber lutil)
-+target_link_libraries(rewrite ${PCRE_LIBRARIES})
++target_link_libraries(rewrite ${PCRE2_LIBRARIES})
 +
 +set(rewrite_bin_SRCS
 +    rewrite.c

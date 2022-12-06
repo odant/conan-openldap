@@ -20,7 +20,7 @@ class CyrusSaslConan(ConanFile):
     no_copy_source = True
     build_policy = "missing"
     #
-    _openssl_version = "1.1.1L+0"
+    _openssl_version = "3.0.7+2"
     _openssl_channel = "stable"
 
     def configure(self):
@@ -42,7 +42,7 @@ class CyrusSaslConan(ConanFile):
 
     def requirements(self):
         self.requires("openssl/%s@%s/%s" % (self._openssl_version, self.user, self._openssl_channel))
-        self.requires("pcre/8.45+0@odant/stable")
+        self.requires("pcre2/[>=10.40]@odant/stable")
         self.requires("cyrus-sasl/2.1.26+9@odant/testing")
 
     def source(self):
