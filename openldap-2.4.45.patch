@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000..1eceaae
 --- /dev/null
 +++ b/src/CMakeLists.txt
-@@ -0,0 +1,150 @@
+@@ -0,0 +1,153 @@
 +# openldap cmake based build system
 +# copyright (c) 2012 Patrick Spendrin <pspendrin@kde.org>
 +
@@ -11,6 +11,9 @@ index 0000000..1eceaae
 +
 +cmake_minimum_required(VERSION 3.4)
 +
++if (UNIX AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
++    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types")
++endif()
 +
 +# build options:
 +option(BUILD_REENTRANT "build a reentrant library" ON)
